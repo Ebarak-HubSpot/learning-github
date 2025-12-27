@@ -1,41 +1,57 @@
 /**
  * Inbouncy Outreach Plan Calculator
- * Purpose: Calculate cold outreach volume needed to hit white label revenue goals.
+ * Purpose: Calculate cold outreach volume and enable easy copying of data.
  */
 
 function calculateOutreach() {
-    // 1. Inputs
     const revenueGoal = document.getElementById('revenueGoal').value;
     const avgRetainer = document.getElementById('avgRetainer').value;
     const resultDiv = document.getElementById('result');
+    const copyBtn = document.getElementById('copyBtn');
 
-    // 2. Your Specific Business Metrics
-    const emailToMeetingRatio = 0.02; // 2% 
-    const meetingToCustomerRatio = 0.20; // 20%
+    // Business Metrics
+    const emailToMeetingRatio = 0.02; 
+    const meetingToCustomerRatio = 0.20;
 
     if (revenueGoal > 0 && avgRetainer > 0) {
-        // 3. Funnel Math (Working Backwards)
         const customersNeeded = Math.ceil(revenueGoal / avgRetainer);
         const meetingsNeeded = Math.ceil(customersNeeded / meetingToCustomerRatio);
         const emailsNeeded = Math.ceil(meetingsNeeded / emailToMeetingRatio);
-        
-        // Weekly breakdown for better actionability
         const weeklyEmails = Math.ceil(emailsNeeded / 4);
 
-        // 4. Detailed Display
         resultDiv.innerHTML = `
-            <div style="margin-bottom: 10px;">To hit <span class="highlight">$${Number(revenueGoal).toLocaleString()}</span>/mo in new White Label revenue:</div>
-            <ul style="list-style: none; padding: 0;">
-                <li>🤝 <strong>${customersNeeded}</strong> New Agency Partners</li>
-                <li>📞 <strong>${meetingsNeeded}</strong> Discovery Calls Booked</li>
-                <li>📧 <strong>${emailsNeeded}</strong> Cold Emails Sent Monthly</li>
-            </ul>
-            <div style="background: #0f172a; padding: 15px; border-radius: 6px; margin-top: 15px; border-left: 4px solid #38bdf8;">
-                <strong>Weekly Action Plan:</strong><br>
-                Send <span class="highlight">${weeklyEmails}</span> highly personalized emails per week.
+            <div id="planText">
+            To hit <span class="highlight">$${Number(revenueGoal).toLocaleString()}</span>/mo in new White Label revenue:
+            <br>🤝 ${customersNeeded} New Agency Partners
+            <br>📞 ${meetingsNeeded} Discovery Calls Booked
+            <br>📧 ${emailsNeeded} Cold Emails Sent Monthly
+            <br>🚀 Weekly Goal: ${weeklyEmails} Personalized Emails
             </div>
         `;
+
+        // Show the copy button once the calculation is done
+        copyBtn.style.display = "block";
     } else {
-        resultDiv.innerHTML = "Please enter valid numbers for the goal and retainer.";
+        resultDiv.innerHTML = "Please enter valid numbers.";
+        copyBtn.style.display = "none";
     }
+}
+
+// New Copy Feature
+function copyPlan() {
+    const plan = document.getElementById('planText').innerText;
+    
+    navigator.clipboard.writeText(plan).then(() => {
+        const copyBtn = document.getElementById('copyBtn');
+        const originalText = copyBtn.innerText;
+        
+        // Feedback to user
+        copyBtn.innerText = "✅ Plan Copied!";
+        copyBtn.style.backgroundColor = "#22c55e"; // Success green
+        
+        setTimeout(() => {
+            copyBtn.innerText = originalText;
+            copyBtn.style.backgroundColor = "#334155";
+        }, 2000);
+    });
 }
