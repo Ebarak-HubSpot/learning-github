@@ -1,0 +1,25 @@
+{
+  "name": "learning-github",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ebarak-HubSpot/learning-github.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Ebarak-HubSpot/learning-github/issues"
+  },
+  "homepage": "https://github.com/Ebarak-HubSpot/learning-github#readme",
+  "dependencies": {
+    "@hubspot/api-client": "^13.4.0",
+    "dotenv": "^17.2.3"
+  }
+}
